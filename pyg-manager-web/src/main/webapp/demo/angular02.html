@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script>
+        function show() {
+            var content=document.getElementById("myInput").value;
+            document.getElementById("mySpan").innerHTML=content;
+        }
+
+
+    </script>
+</head>
+<body ng-app>
+<input  id="myInput" onkeyup="show()"><br>
+输入的内容是:<span id="mySpan"></span>
+
+<br><br>
+<input ng-model="content"><br>
+输入的内容是:{{content}}
+</body>

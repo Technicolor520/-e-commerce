@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>循环</title>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script>
+    var app=angular.module("myApp",[]);//模块的定义   模块名+【】
+    //一个模块下有多个控制器
+        //在模块下定义控制器
+        app.controller("myController",function($scope){
+
+
+            $scope.list1=["迪丽热巴","古力拉扎","马尔扎哈"]
+            $scope.list2=[{username:"古力拉扎"},{username:"迪丽热巴"},{username:"马尔扎哈"}]
+
+        })
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myController" >
+<div ng-repeat="pojo in list1">
+    {{pojo}}
+</div>
+<br>
+<div ng-repeat="pojo in list2">
+    {{pojo.username}}
+</div>
+</body>

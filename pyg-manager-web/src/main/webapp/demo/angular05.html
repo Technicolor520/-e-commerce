@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初始化指令</title>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script>
+    var app=angular.module("myApp",[]);//模块的定义   模块名+【】
+    //一个模块下有多个控制器
+        //在模块下定义控制器
+        app.controller("myController",function($scope){
+
+            //添加方法
+            $scope.show=function() {
+                $scope.user={"userName":"lisi"}
+            }
+        })
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myController" ng-init="show()">
+{{user.userName}}
+</body>

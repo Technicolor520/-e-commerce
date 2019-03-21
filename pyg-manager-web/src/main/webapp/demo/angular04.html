@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模块化设计</title>
+    <script src="../plugins/angularjs/angular.min.js"></script>
+    <script>
+    var app=angular.module("myApp",[]);//模块的定义   模块名+【】
+    //一个模块下有多个控制器
+        //在模块下定义控制器
+        app.controller("myController",function($scope){
+            $scope.user={"userName":"zhangsan","age":30};
+        })
+
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myController">
+{{user.userName}}
+</body>
