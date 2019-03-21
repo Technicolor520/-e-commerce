@@ -1,19 +1,34 @@
 package com.pyg.mapper;
 
 import com.pyg.pojo.TbBrand;
+import com.pyg.pojo.TbBrandExample;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
-/**
- * @author Technicolor
- * @version v1.0
- * @date 2019/3/7 21:34
- * @description TODO
- **/
-
+import java.util.Map;
 
 public interface TbBrandMapper {
-    List<TbBrand> findAll();
+    int countByExample(TbBrandExample example);
 
+    int deleteByExample(TbBrandExample example);
 
+    int deleteByPrimaryKey(Long id);
+
+    int insert(TbBrand record);
+
+    int insertSelective(TbBrand record);
+
+    List<TbBrand> selectByExample(TbBrandExample example);
+
+    TbBrand selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") TbBrand record, @Param("example") TbBrandExample example);
+
+    int updateByExample(@Param("record") TbBrand record, @Param("example") TbBrandExample example);
+
+    int updateByPrimaryKeySelective(TbBrand record);
+
+    int updateByPrimaryKey(TbBrand record);
+
+    List<Map> findBrandList();
 }

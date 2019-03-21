@@ -2,21 +2,14 @@ package com.pyg.pojo;
 
 import java.io.Serializable;
 
-/**
- * @author Technicolor
- * @version v1.0
- * @date 2019/3/7 21:24
- * @description TODO
- **/
-
-
 public class TbBrand implements Serializable {
-
     private Long id;
 
     private String name;
 
     private String firstChar;
+
+    private static final long serialVersionUID = 1L;
 
     public Long getId() {
         return id;
@@ -31,7 +24,7 @@ public class TbBrand implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getFirstChar() {
@@ -39,6 +32,6 @@ public class TbBrand implements Serializable {
     }
 
     public void setFirstChar(String firstChar) {
-        this.firstChar = firstChar;
+        this.firstChar = firstChar == null ? null : firstChar.trim();
     }
 }

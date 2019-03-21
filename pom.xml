@@ -11,10 +11,13 @@
         <module>pyg-pojo</module>
         <module>pyg-dao</module>
         <module>pyg-common</module>
-        <module>pyg-manager</module>
         <module>pyg-manager-interface</module>
         <module>pyg-manager-service</module>
         <module>pyg-manager-web</module>
+        <module>pyg_shop_web</module>
+        <module>pyg_portal_web</module>
+        <module>pyg_content_service</module>
+        <module>pyg_content_interface</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -261,6 +264,7 @@
                 <artifactId>xml-apis</artifactId>
                 <version>1.4.01</version>
             </dependency>
+
         </dependencies>
 
 
