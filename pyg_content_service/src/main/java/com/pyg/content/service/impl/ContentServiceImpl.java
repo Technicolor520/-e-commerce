@@ -11,6 +11,7 @@ import com.pyg.mapper.TbContentMapper;
 import com.pyg.pojo.TbContent;
 import com.pyg.pojo.TbContentExample;
 import com.pyg.pojo.TbContentExample.Criteria;
+import org.springframework.data.redis.core.RedisTemplate;
 
 
 /**
@@ -23,6 +24,9 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private TbContentMapper contentMapper;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
 	
 	/**
 	 * 查询全部
@@ -47,7 +51,9 @@ public class ContentServiceImpl implements ContentService {
 	 */
 	@Override
 	public void add(TbContent content) {
-		contentMapper.insert(content);		
+
+		contentMapper.insert(content);
+		redisTemplate.boundHashOps("contentList").delete(content.getCategoryId());
 	}
 
 	
@@ -56,7 +62,16 @@ public class ContentServiceImpl implements ContentService {
 	 */
 	@Override
 	public void update(TbContent content){
+
+		//tbContent修改之前的id
+		TbContent tbContent = contentMapper.selectByPrimaryKey(content.getId());
 		contentMapper.updateByPrimaryKey(content);
+		redisTemplate.boundHashOps("contentList").delete(content.getCategoryId());
+
+		if(tbContent.getCategoryId().longValue()!=content.getCategoryId().longValue()){
+			redisTemplate.boundHashOps("contentList").delete(tbContent.getCategoryId());
+		}
+
 	}	
 	
 	/**
@@ -75,7 +90,9 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public void dele(Long[] ids) {
 		for(Long id:ids){
+			TbContent content = contentMapper.selectByPrimaryKey(id);
 			contentMapper.deleteByPrimaryKey(id);
+			redisTemplate.boundHashOps("contentList").delete(content.getCategoryId());
 		}		
 	}
 	
@@ -106,5 +123,29 @@ public class ContentServiceImpl implements ContentService {
 		Page<TbContent> page= (Page<TbContent>)contentMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+
+	/**
+	 * 显示轮播图
+	 * @param categoryId
+	 * @return
+	 */
+	@Override
+	public List<TbContent> findByCategotyId(Long categoryId) {
+
+		List<TbContent> contentList = (List<TbContent>) redisTemplate.boundHashOps("contentList").get(categoryId);
+		if(contentList==null){
+			//		select  * from tb_content where category_id=? and  status ="1" order by sort_order description
+			TbContentExample example = new TbContentExample();
+			example.createCriteria().andStatusEqualTo("1").andCategoryIdEqualTo(categoryId);
+			example.setOrderByClause("sort_order desc");
+			contentList= contentMapper.selectByExample(example);
+			redisTemplate.boundHashOps("contentList").put(categoryId,contentList);
+			System.out.println("from MYSQL");
+		}else {
+			System.out.println("from REDIS");
+		}
+
+		return contentList;
+	}
 }

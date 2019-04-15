@@ -1,5 +1,5 @@
  //控制层 
-app.controller('contentController' ,function($scope,$controller  ,contentCategoryService ,contentService){
+app.controller('contentController' ,function($scope,$controller ,uploadService ,contentCategoryService ,contentService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 
@@ -10,7 +10,19 @@ app.controller('contentController' ,function($scope,$controller  ,contentCategor
 		contentCategoryService.findAll().success(function (response) {
 			$scope.categoryList=response;
         })
-    }
+    };
+
+    $scope.uploadFile=function () {
+		uploadService.upload().success(function (response) {
+
+			if(response.success){
+				$scope.entity.pic=response.message;
+			}else {
+				alert("上传失败")
+			}
+        })
+    };
+
 
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
